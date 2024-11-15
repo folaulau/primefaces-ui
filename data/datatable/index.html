@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+
+    <link rel="stylesheet" href="/assets/primeui/themes/ui-lightness/theme.css" />
+    <link rel="stylesheet" href="/assets/primeui/primeui.css" />
+    <link rel="stylesheet" href="/assets/jquery/jquery-ui.min.css" />
+    <link rel="stylesheet" href="/assets/primeui/primeui.min.css" />
+    <script type="text/javascript" src="/assets/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/primeui/primeui.min.js"></script>
+</head>
+<body>
+
+<h1>DataTable</h1>
+<p id="table"></p>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // call api to get all customers
+
+        var contracts = [
+            {
+                uuid: "uuid1",
+                name: "Contract1"
+            },
+            {
+                uuid: "uuid2",
+                name: "Contract2"
+            },
+            {
+                uuid: "uuid3",
+                name: "Contract3"
+            }
+        ];
+        var customers = [
+            {
+                customerName : "Folau1",
+                uuid1: 10,
+                uuid2: 20,
+                uuid3: 30
+            }
+        ];
+
+        displayTable();
+
+        function displayTable(){
+            console.log(contracts);
+            //field: 'firstName', headerText: 'First Name', sortable: true, editor: 'input'
+            var columns = [];
+            columns.push({ field: 'customerName', headerText: 'Customer Name', sortable: true });
+            for (var i = 0; i < contracts.length; i++) {
+                columns.push({ field: contracts[i].uuid, headerText: contracts[i].name, sortable: true, editor: 'input' });
+            }
+
+            console.log(columns);
+
+            // var data = [{
+            //     "customerName": "John Doe",
+            //     "contract-ba952e18f2784f0da666f8e14ef10d22": 3,
+            //     "contract-07f62f923f944040aaf655cb825edde5": 4,
+            //     "contract-64cbcbedd74349a88da298a75d2e7f96": 5,
+            //     "contract-5658cecd3f30477fb484ec7996860c0f": 3,
+            // }];
+
+            $('#table').puidatatable({
+                columns: columns,
+                datasource: customers,
+                paginator: {
+                    rows: 10
+                },
+                rowSelect: function(event, data) {
+                    console.log("rowSelect");
+                    console.log(`event `, event);
+                    console.log(`data `, data);
+                },
+                editMode: 'cell',
+                cellEdit: function (event, data) {
+                    // const updatedRow = data.data;
+                    // const field = data.field;
+                    // const newValue = data.value;
+
+                    // console.log(`Updated ${field} to: ${newValue}`);
+                    console.log("cellEdit");
+                    console.log(`event `, event);
+                    console.log(`data `, data);
+                }
+            });
+        }
+
+        function updateCustomer(customer){
+            console.log(customer);
+            // $.ajax({
+            //     url: 'http://localhost:8085/customers/' + customer.id,
+            //     type: 'PUT',
+            //     contentType: 'application/json',
+            //     data: JSON.stringify(customer),
+            //     success: function(data) {
+            //         console.log(data);
+            //     }
+            // });
+        }
+    });
+</script>
+</body>
+</html>
